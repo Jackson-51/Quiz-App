@@ -9,6 +9,9 @@
   --transform: translateX(-50%);
   --baseColor: #28402e;
   --lightGray: #efede6;
+  --lightLemon: #e3fad8;
+  --deepGray: #a0a0a0;
+  --lightBaseColor: #226e35;
 }
 
 *{

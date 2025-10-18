@@ -17,11 +17,11 @@ const App = () => {
     ["https://cdn.lordicon.com/ydwstxbl.json", "Compete with Friends", "Challenge friends, join tournaments, and see who can top the leaderboard.", "primary:#28402e,secondary:#ebe6ef", "morph-alone"]
   ];
   const leaderboard = [
-    ["fa-solid fa-medal", "BrainMaster99", 9850, "#E6B800"],
-    ["fa-solid fa-medal", "QuizWizard", 9720, "#B8B8B8"],
-    ["fa-solid fa-medal", "ThinkTank", 9580, "#B87333"],
-    ["fa-solid fa-4", "MindExplorer", 9350, ""],
-    ["fa-solid fa-5", "BrainiacQueen", 9210, ""]
+    ["fa-solid fa-medal", "BrainMaster99", 9850, "#E6B800", "/images/one.jpg"],
+    ["fa-solid fa-medal", "QuizWizard", 9720, "#B8B8B8", "/images/two.jpg"],
+    ["fa-solid fa-medal", "ThinkTank", 9580, "#B87333", "/images/three.jpg"],
+    ["fa-solid fa-4", "MindExplorer", 9350, "", "/images/four.jpg"],
+    ["fa-solid fa-5", "BrainiacQueen", 9210, "", "/images/five.jpg"]
   ]
   return (
     <div className="flex flex-col">
@@ -123,7 +123,7 @@ const App = () => {
         </div>
       </section>
 
-      <section className="flex flex-col px-3">
+      <section className="flex flex-col px-3 items-center">
         <div className="trig flex flex-col w-full text-center px-2 py-6 gap-10 md:w-1/2">
           <h1 className="relative text-3xl font-semibold before:content-[''] before:absolute before:bottom-[-20px] before:left-1/2 before:-translate-x-1/2 before:w-20 before:h-1 before:bg-[var(--baseColor)]">
             Leaderboard
@@ -133,7 +133,7 @@ const App = () => {
           </p>
         </div>
 
-        <div className="w-[100%] flex flex-col rounded-3xl overflow-hidden mb-10">
+        <div className="w-[100%] md:w-[60%] flex flex-col rounded-3xl overflow-hidden mb-10">
           <header className="flex items-center gap-2 w-[100%] bg-[#e88c30] p-3">
             <lord-icon
                 src="https://cdn.lordicon.com/lewtedlh.json"
@@ -148,10 +148,10 @@ const App = () => {
           </header>
           <div className="flex flex-col w-[100%]">
             {leaderboard.map((item, i) => (
-              <div key={i} className="w-[100%] p-2 flex items-center justify-between py-3 border-b-1 border-[#dddddd] bg-[#f0c50663]">
+              <div key={i} className={`w-[100%] px-6 flex items-center justify-between py-3 border-b-1 border-[#dddddd] bg-[#f0c50663]`} >
                 <div className="flex items-center gap-3">
                   <span className="flex justify-center items-center bg-[var(--lightGray)] w-8 h-8 rounded-full"><i className={item[0]} style={{color: `${item[3]}`}}></i></span>
-                  <span className="w-10 h-10 bg-[var(--lightGray)] rounded-full"></span>
+                  <span className="w-10 h-10 bg-[var(--lightGray)] rounded-full overflow-hidden flex justify-center items-center"><img src={item[4]} className="object-cover w-10 h-10" alt="" /></span>
                   <p className="text-[13px]">{item[1]}</p>                  
                 </div>
                 <div className="flex flex-col items-end">
@@ -162,6 +162,56 @@ const App = () => {
             ))}
           </div>
         </div>
+      </section>
+      <section className="px-5 py-10 flex flex-col items-center gap-7 justify-center bg-[var(--lightLemon)]">
+        <header className="flex flex-col items-center gap-4 text-center">
+          <b className="text-xl">Ready to Challenge Your Minds?</b>
+          <small>Create an account to track your progress, compete with friends, and unlock special quiz categories. Start your journey to becoming a quiz master today!</small>
+        </header>
+        
+        <form action="" className="flex flex-col p-3 bg-white rounded-3xl gap-4 md:grid md:grid-cols-2">
+            <div className="relative rounded-3xl overflow-hidden w-[100%] h-40 md:h-[100%] bg-black flex justify-center items-center">
+              <img src="/low-poly.svg" alt="" className="absolute z-0 md:object-cover md:h-[100%]" />
+              <div className="relative z-1 flex flex-col text-center w-[70%]">
+                <b className="text-[var(--lightGray)]">Learn as you play</b>
+                <small className="text-[#efede693]">Each quiz helps you sharpen your mind while having fun.</small>
+              </div>
+            </div>
+            <div className="flex flex-col items-center gap-3">
+              <b className="text-[var(--baseColor)] text-extrabold">BrainFuel</b>
+              <small className="text-[var(--baseColor)]"><b>SignUp</b></small>
+              <div className="flex items-center gap-5">
+                <span className="flex items-center bg-[var(--lightGray)] px-5 py-3 rounded-2xl gap-2"><img src="/google.svg" alt="" className="w-6 h-6" /><small className="">Google</small></span>
+                <span className="flex items-center bg-[var(--lightGray)] px-5 py-3 rounded-2xl gap-2"><img src="/facebook.svg" alt="" className="w-6 h-6" /><small className="">FaceBook</small></span>
+              </div>
+              <b 
+              className="
+              w-[100%]
+              relative 
+              before:content-[' ']
+              before:absolute 
+              before:w-[40%] 
+              before:left-[10px] 
+              before:transform-[translateY(-50%)] 
+              before:top-[50%] 
+              before:h-[1px] 
+              before:bg-[var(--deepGray)]   
+              after:content-[' ']
+              after:absolute 
+              after:w-[40%] 
+              after:right-[10px] 
+              after:transform-[translateY(-50%)] 
+              after:top-[50%] 
+              after:h-[1px] 
+              after:bg-[var(--deepGray)] 
+              flex 
+              justify-center">or</b>
+              <input type="text" placeholder="Username"  className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
+              <input type="email" placeholder="Email" className="px-5 text-sm  border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+              <input type="password" placeholder="Password" className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+              <input type="button" value="SignUp" className="px-10 py-3 rounded-2xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"/>
+            </div>
+        </form>
       </section>
     </div>
   );
