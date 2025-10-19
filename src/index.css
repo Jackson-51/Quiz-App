@@ -18,3 +18,12 @@
 *{
   font-family: var(--font-poppins);
 }
+.animate{
+  background-position: 50% 50%;
+  animation: slide 5s infinite linear;
+}
+@keyframes slide {
+  to{
+    background-position: -50% -50%;
+  }
+}

@@ -35,8 +35,8 @@ const App = () => {
             <p className="text-gray-800 font-semibold">BrainFuel</p>
           </span>
           <span className="flex gap-4 items-center">
-            <Link to="/" className="text-[var(--baseColor)] font-bold">Login</Link>
-            <Link to="/" className="px-4 py-2 rounded-lg text-sm font-bold bg-[var(--baseColor)] text-white">Sign Up</Link>
+            <Link to="/login" className="text-[var(--baseColor)] font-bold">Login</Link>
+            <Link to="/signup" className="px-4 py-2 rounded-lg text-sm font-bold bg-[var(--baseColor)] text-white">Sign Up</Link>
           </span>
         </nav>
 
@@ -55,7 +55,7 @@ const App = () => {
             <small className="md:w-1/2 md:text-left">
               Challenge yourself with our fun, engaging quizzes designed to expand your mind and test your knowledge across various topics.
             </small>
-            <Link to="/" className="px-4 py-2 rounded-lg text-sm font-bold bg-[var(--baseColor)] text-white md:text-left">
+            <Link to="/signup" className="px-4 py-2 rounded-lg text-sm font-bold bg-[var(--baseColor)] text-white md:text-left">
               Get Started
             </Link>
           </div>
@@ -222,7 +222,7 @@ const App = () => {
         </form>
       </section>
 
-      <footer className="grid grid-rows-4 md:grid-col-4 md:grid-rows-2 w-[100%] md:h-100 gap-5 md:gap-[5em] p-5 bg-[var(--baseColor)] text-[var(--lightGray)]">
+      <footer className="grid grid-rows-4 md:grid-col-4 md:grid-rows-2 w-[100%] md:h-100 gap-5 md:gap-[5em] p-5 bg-[var(--baseColor)] text-[var(--lightGray)] overflow-hidden">
         <div className="flex flex-col gap-5 py-3 md:col-start-1 md:col-end-2">
           <h1 className="text-3xl">BrainFuel</h1>
           <small className="text-[var(--deepGray)]">Challenge your mind with our engaging quizzes and test your knowledge across a wide range of topics.</small>
