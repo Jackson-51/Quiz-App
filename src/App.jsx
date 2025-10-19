@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { defineElement } from "@lordicon/element";
 import { motion, spring, useInView } from "framer-motion"
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 defineElement();
 const App = () => {
@@ -23,6 +23,7 @@ const App = () => {
     ["fa-solid fa-4", "MindExplorer", 9350, "", "/images/four.jpg"],
     ["fa-solid fa-5", "BrainiacQueen", 9210, "", "/images/five.jpg"]
   ]
+  const [passwordState, setPasswordState] = useState(false); 
   return (
     <div className="flex flex-col">
       <section className="flex flex-col items-center w-full md:h-[50%] bg-gradient-to-b from-transparent to-[#bbeba3] justify-between">
@@ -95,7 +96,7 @@ const App = () => {
         <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-4 w-full max-w-5xl">
           {features.map((item, i) => {
             const ref = useRef(null)
-            const inView = useInView(ref, {threshold: 0.3});
+            const inView = useInView(ref, {once:true, threshold: 0.3});
             return(
               <motion.div 
               key={i} 
@@ -170,19 +171,23 @@ const App = () => {
         </header>
         
         <form action="" className="flex flex-col p-3 bg-white rounded-3xl gap-4 md:grid md:grid-cols-2">
-            <div className="relative rounded-3xl overflow-hidden w-[100%] h-40 md:h-[100%] bg-black flex justify-center items-center">
+            <motion.div 
+            whileInView={{ scale: [1, 1.1, 1] }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.3}}
+            className="relative rounded-3xl overflow-hidden w-[100%] h-40 md:h-[100%] bg-black flex justify-center items-center">
               <img src="/low-poly.svg" alt="" className="absolute z-0 md:object-cover md:h-[100%]" />
               <div className="relative z-1 flex flex-col text-center w-[70%]">
                 <b className="text-[var(--lightGray)]">Learn as you play</b>
                 <small className="text-[#efede693]">Each quiz helps you sharpen your mind while having fun.</small>
               </div>
-            </div>
+            </motion.div>
             <div className="flex flex-col items-center gap-3">
-              <b className="text-[var(--baseColor)] text-extrabold">BrainFuel</b>
+              <b className="text-[var(--baseColor)] text-extrabold mt-4">BrainFuel</b>
               <small className="text-[var(--baseColor)]"><b>SignUp</b></small>
               <div className="flex items-center gap-5">
-                <span className="flex items-center bg-[var(--lightGray)] px-5 py-3 rounded-2xl gap-2"><img src="/google.svg" alt="" className="w-6 h-6" /><small className="">Google</small></span>
-                <span className="flex items-center bg-[var(--lightGray)] px-5 py-3 rounded-2xl gap-2"><img src="/facebook.svg" alt="" className="w-6 h-6" /><small className="">FaceBook</small></span>
+                <span className="flex cursor-pointer items-center bg-[var(--lightGray)] px-5 py-3 rounded-2xl gap-2"><img src="/google.svg" alt="" className="w-6 h-6" /><small className="">Google</small></span>
+                <span className="flex cursor-pointer items-center bg-[var(--lightGray)] px-5 py-3 rounded-2xl gap-2"><img src="/facebook.svg" alt="" className="w-6 h-6" /><small className="">FaceBook</small></span>
               </div>
               <b 
               className="
@@ -208,11 +213,62 @@ const App = () => {
               justify-center">or</b>
               <input type="text" placeholder="Username"  className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
               <input type="email" placeholder="Email" className="px-5 text-sm  border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
-              <input type="password" placeholder="Password" className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+              <div className="w-[100%] relative">
+                <input type={passwordState ? "text" : "password"} placeholder="Password" className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+                <i className={`fa-regular ${passwordState ? 'fa-eye' : 'fa-eye-slash'} text-[var(--baseColor)] absolute right-2 top-[50%] transform-[translateY(-50%)]`} onClick={() => setPasswordState(!passwordState)}></i>
+              </div>
               <input type="button" value="SignUp" className="px-10 py-3 rounded-2xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"/>
             </div>
         </form>
       </section>
+
+      <footer className="grid grid-rows-4 md:grid-col-4 md:grid-rows-2 w-[100%] md:h-100 gap-5 md:gap-[5em] p-5 bg-[var(--baseColor)] text-[var(--lightGray)]">
+        <div className="flex flex-col gap-5 py-3 md:col-start-1 md:col-end-2">
+          <h1 className="text-3xl">BrainFuel</h1>
+          <small className="text-[var(--deepGray)]">Challenge your mind with our engaging quizzes and test your knowledge across a wide range of topics.</small>
+          <span className="flex items-center gap-2">
+              <Link to="/" className="flex justify-center items-center p-2 bg-[var(--orange)] text-[var(--baseColor)] text-2xl rounded-lg"><i className="fa-brands fa-instagram"></i></Link>
+              <Link to="/" className="flex justify-center items-center p-2 bg-[var(--orange)] text-[var(--baseColor)] text-2xl rounded-lg"><i className="fa-brands fa-linkedin-in"></i></Link>
+              <Link to="/" className="flex justify-center items-center p-2 bg-[var(--orange)] text-[var(--baseColor)] text-2xl rounded-lg"><i className="fa-brands fa-facebook-f"></i></Link>
+              <Link to="/" className="flex justify-center items-center p-2 bg-[var(--orange)] text-[var(--baseColor)] text-2xl rounded-lg"><i className="fa-brands fa-youtube"></i></Link>
+          </span>          
+        </div>
+        <div className="flex flex-col gap-2 text-[var(--deepGray)] md:col-start-2 md:col-end-3">
+          <h1 className="text-2xl text-[var(--lightGray)]">Quick Links</h1>
+          <Link to="/"><small>Home</small></Link>
+          <Link to="/"><small>About Us</small></Link>
+          <Link to="/"><small>Quiz Categories</small></Link>
+          <Link to="/"><small>LeaderBoard</small></Link>
+          <Link to="/"><small>Blog</small></Link>
+        </div>
+        <div className="flex flex-col gap-2 text-[var(--deepGray)] md:col-start-3 md:col-end-4">
+          <h1 className="text-2xl text-[var(--lightGray)]">Supports</h1>
+          <Link to="/"><small>Help center</small></Link>
+          <Link to="/"><small>FAQ</small></Link>
+          <Link to="/"><small>Contact Us</small></Link>
+          <Link to="/"><small>Feedback</small></Link>
+          <Link to="/"><small>Report a Bug</small></Link>
+        </div>
+        <div className="flex flex-col gap-2 md:col-start-4 md:col-end-5">
+          <h1 className="text-2xl text-[var(--lightGray)]">Contact</h1>
+          <span className="flex items-center gap-3 text-[var(--deepGray)]">
+            <i className="fa-regular fa-envelope text-2xl"></i>
+            <Link to="/"><small>brainfuelGO@gmail.com</small></Link>
+          </span>
+          <span className="flex items-center gap-3 text-[var(--deepGray)]">
+            <i className="fa-solid fa-phone text-2xl"></i>
+            <Link to="/"><small>+234-7013137877</small></Link>
+          </span>        
+        </div>
+        <div className="flex flex-col items-center justify-center gap-5 border-t-1 border-[var(--deepGray)] py-5 md:col-start-1 md:col-end-5">
+          <p>&copy; BrainFuel. All rights reserved.</p>
+          <span className="flex items-center gap-5">
+            <Link to="/"><small>Privacy Policy</small></Link>
+            <Link to="/"><small>Cookie policy</small></Link>
+            <Link to="/"><small>Terms of Service</small></Link>
+          </span>
+        </div>
+      </footer>
     </div>
   );
 };
