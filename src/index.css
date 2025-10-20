@@ -10,9 +10,10 @@
   --baseColor: #28402e;
   --lightGray: #efede6;
   --lightLemon: #e3fad8;
+  --deepLemon: #d6fac683;
   --deepGray: #e6cece;
   --lightBaseColor: #226e35;
-  --orange: #e88c30;
+  --orange: #e88c30; 
 }
 
 *{

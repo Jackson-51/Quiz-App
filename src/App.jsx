@@ -35,8 +35,8 @@ const App = () => {
             <p className="text-gray-800 font-semibold">BrainFuel</p>
           </span>
           <span className="flex gap-4 items-center">
-            <Link to="/login" className="text-[var(--baseColor)] font-bold">Login</Link>
-            <Link to="/signup" className="px-4 py-2 rounded-lg text-sm font-bold bg-[var(--baseColor)] text-white">Sign Up</Link>
+            <Link to="/login" className="text-[var(--baseColor)] font-bold text-[13px]">Login</Link>
+            <Link to="/signup" className="px-4 py-2 rounded-lg text-[13px] font-bold bg-[var(--baseColor)] text-white">Sign Up</Link>
           </span>
         </nav>
 
