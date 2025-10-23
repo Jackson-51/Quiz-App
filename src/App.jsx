@@ -77,7 +77,7 @@ const App = () => {
           {webSummary.map((item, i) => (
             <div key={i} className="p-6 bg-[var(--lightGray)] rounded-3xl flex flex-col gap-3">
               <h1 className="font-semibold text-[var(--baseColor)] text-2xl">{item[0]}</h1>
-              <small>{item[1]}</small>
+              <small className="text-[10px]">{item[1]}</small>
             </div>
           ))}
         </div>

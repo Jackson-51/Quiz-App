@@ -19,12 +19,13 @@
 *{
   font-family: var(--font-poppins);
 }
-.animate{
-  background-position: 50% 50%;
-  animation: slide 5s infinite linear;
+.sb::-webkit-scrollbar{
+  appearance: none;
+  display: none;
 }
-@keyframes slide {
-  to{
-    background-position: -50% -50%;
-  }
+.icon-wrapper:hover lord-icon {
+  pointer-events: auto;
+}
+.icon-wrapper lord-icon {
+  pointer-events: none;
 }

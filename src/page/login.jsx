@@ -1,9 +1,15 @@
 import { motion} from "framer-motion"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
     const [passwordState, setPasswordState] = useState(false); 
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        localStorage.setItem("username", name);
+    }, [name]);
     return (
         <div className="relative z-10 overflow-hidden flex justify-center items-center w-screen h-screen bg-[var(--lightLemon)]">
             <div className="absolute bottom-0 w-full h-full z-[-1] overflow-hidden flex flex-col justify-end">
@@ -94,12 +100,24 @@ const Login = () => {
                     after:bg-[var(--deepGray)] 
                     flex 
                     justify-center">or</b>
-                    <input type="text" placeholder="Username"  className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
+                    <input 
+                    type="text" 
+                    placeholder="Username"  
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
                     <div className="w-[100%] relative">
-                        <input type={passwordState ? "text" : "password"} placeholder="Password" className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+                        <input 
+                        type={passwordState ? "text" : "password"} 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}                        
+                        placeholder="Password" className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
                         <i className={`fa-regular ${passwordState ? 'fa-eye' : 'fa-eye-slash'} text-[var(--baseColor)] absolute right-2 top-[50%] transform-[translateY(-50%)]`} onClick={() => setPasswordState(!passwordState)}></i>
                     </div>
-                    <input type="button" value="Login" className=" cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"/>
+                    {name.length > 0 && password.length > 0 ?
+                        <Link to="/dashboard" className="md:flex md:justify-center cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2">Login</Link> :
+                        <button disabled className="disabled:opacity-75 md:flex md:justify-center cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2">Login</button>
+                    }       
                     <small className="text-[#3a3a3a]  md:flex md:justify-center md:w-full mb-5">Create an account <Link to="/signup" className="text-[var(--baseColor)] font-semibold pl-1">SignUp</Link></small>
                 </div>
             </form>

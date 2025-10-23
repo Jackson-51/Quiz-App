@@ -6,12 +6,14 @@ import { createBrowserRouter, RouterProvider} from 'react-router'
 import SignUp from './page/signup.jsx'
 import Login from './page/login.jsx'
 import DashBoard from './page/dashboard.jsx'
+import QuizPage from './component/quizPage.jsx'
 
 const router = createBrowserRouter([
   {path: "/", element: <App />},
   {path: "/signup", element: <SignUp />},
   {path: "/login", element: <Login />},
-  {path: "/dashboard", element: <DashBoard />}
+  {path: "/dashboard", element: <DashBoard />},
+  {path: "/quizpage/:quizId", element: <QuizPage />}
 ]);
 
 createRoot(document.getElementById('root')).render(
