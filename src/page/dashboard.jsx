@@ -6,9 +6,28 @@ import { Link } from "react-router-dom"
 defineElement()
 const DashBoard = () => {
     const [dashName, setDashName] = useState("");
+    let [quizData, setQuizData] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         const username = localStorage.getItem("username");
-        setDashName(username)
+        setDashName(username);
+
+        setIsLoading(true);
+        fetch("https://raw.githubusercontent.com/Jackson-51/my-json-data/main/data.json")
+            .then(response => {
+                if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                setQuizData(data);
+                setIsLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to load quiz data:", err);
+                setQuizData({});
+                setIsLoading(false);
+            });
     }, [])
 
     const dashboardData = {
@@ -138,8 +157,13 @@ const DashBoard = () => {
                         {quiz.map((item, i) => (
                             <Link to={`/quizpage/${item.courseCode}`} className="flex flex-col w-full h-80 rounded-3xl overflow-hidden" key={i}>
                                 <span className="relative w-full overflow-hidden rounded-t-3xl flex justify-center items-centers">
-                                    <small className="absolute right-3 top-3 text-white p-3 rounded-lg bg-[#0000008a]">{item.quantity} Questions</small>
-                                    <img src={item.Qimage} alt="" className="object-cover w-full" />
+                                <small className="absolute right-3 top-3 text-white p-3 rounded-lg bg-[#0000008a]">
+                                    {isLoading ? "Loading..." : 
+                                    quizData[item.courseCode]?.questions 
+                                        ? `${quizData[item.courseCode].questions.length} Questions`
+                                        : "No questions"}
+                                </small>
+                                <img src={item.Qimage} alt="" className="object-cover w-full" />
                                 </span>
                                 <div className="flex flex-col gap-3 bg-[#ffffffb7] px-5 pt-5">
                                     <small className="text-[#00249c]">{item.courseCode}</small>
