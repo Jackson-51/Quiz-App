@@ -36,10 +36,10 @@ const DashBoard = () => {
             data: [24, 7, 82, 1240]
         }
     const allQuizzes = [
-        {Qimage: "/quizImage/Qimg1.jpg", courseCode: "GEG311", courseName: "Multivariable calculus", duration: "25 min", quantity: "20", status: "completed"},
-        {Qimage: "/quizImage/Qimg2.jpg", courseCode: "CEG211", courseName: "Mechanics of material", duration: "20 min", quantity: "15", status: "progress"},
-        {Qimage: "/quizImage/Qimg3.jpg", courseCode: "PGG318", courseName: "Natural gas processing", duration: "30 min", quantity: "25", status: "notstarted"},
-        {Qimage: "/quizImage/Qimg4.jpg", courseCode: "CHG331", courseName: "Transport phenomenon II", duration: "45 min", quantity: "30", status: "completed"}
+        {Qimage: "/quizImage/Qimg1.jpg", courseCode: "GEG311", courseName: "Multivariable calculus", status: "completed"},
+        {Qimage: "/quizImage/Qimg2.jpg", courseCode: "CEG211", courseName: "Mechanics of material", status: "progress"},
+        {Qimage: "/quizImage/Qimg3.jpg", courseCode: "PGG318", courseName: "Natural gas processing", status: "notstarted"},
+        {Qimage: "/quizImage/Qimg4.jpg", courseCode: "CHG331", courseName: "Transport phenomenon II", status: "completed"}
     ]
     const sidebar = [
         {icon: "https://cdn.lordicon.com/jeuxydnh.json", name: "Dashboard"},
@@ -61,10 +61,10 @@ const DashBoard = () => {
             setQuiz(filterQuiz);            
         }
     }
-     const iconRefs = useRef([]);
+    const iconRefs = useRef([]);
     const [hovered, setHovered] = useState(null);
     return (
-        <div className="relative w-screen h-screen flex flex-col items-center bg-[var(--lightGray)] overflow-y-scroll sb">
+        <div className="relative w-screen h-screen flex flex-col items-start bg-[var(--lightGray)] overflow-y-scroll sb">
             <nav className="w-full flex items-center justify-between p-3 bg-[var(--deepLemon)]">
                 <span className="flex items-center gap-2 cursor-pointer">
                     <img src="/logo.png"  alt="" className="w-10 h-10" />
@@ -79,8 +79,8 @@ const DashBoard = () => {
                     <span className="w-10 h-10 flex justify-center items-center rounded-full bg-[#7f9b72]"><i className="fa-regular fa-user text-[var(--baseColor)]"></i></span>
                 </div>
             </nav>
-            <div className="flex items-center w-full h-full">
-                <aside className="hidden w-100 h-full bg-white border border-gray-300 px-3 md:flex flex-col items-center pt-5">
+            <div className="flex items-start w-full h-full">
+                <aside className="hidden md:flex md:w-60 flex-shrink-0 h-full bg-white border border-gray-300 px-3 flex-col items-center pt-5">
                     <div className="flex flex-col gap-2 w-full">
                         {sidebar.map((item, i) => (
                                 <motion.span
@@ -116,7 +116,7 @@ const DashBoard = () => {
                             ))}
                     </div>
                 </aside>
-                <div className="flex flex-col gap-5 h-full overflow-y-scroll sb">
+                <div className="flex-1 flex flex-col gap-5 h-full overflow-y-scroll sb">
                     <section className="w-full p-5 gap-3 flex flex-col items-start">
                         <h1 className="text-gray-700 font-bold">Dashboard Overview</h1>
                         <div className="w-full flex flex-col gap-3 md:grid md:grid-cols-2">
@@ -129,7 +129,13 @@ const DashBoard = () => {
                                 ]
                                 return (
                                     <div key={i} className="w-full p-5 flex items-center gap-4 rounded-2xl bg-white">
-                                        <span className="w-12 h-12 rounded-xl flex justify-center items-center bg-[var(--lightLemon)]" style={{backgroundColor: colors[i][0]}}><i className={dashboardData.icon[i]} style={{color: colors[i][1]}}></i></span>
+                                        <span 
+                                        className="w-12 h-12 rounded-xl flex justify-center items-center bg-[var(--lightLemon)]" 
+                                        style={{backgroundColor: colors[i][0]}}>
+                                            <i 
+                                            className={dashboardData.icon[i]} 
+                                            style={{color: colors[i][1]}}></i>
+                                        </span>
                                         <div className="flex flex-col justify-between">
                                             <small className="text-gray-500">{item}</small>
                                             <b className="text-xl">{i !== 2 ? dashboardData.data[i] : dashboardData.data[i] + " %"}</b>
@@ -157,20 +163,20 @@ const DashBoard = () => {
                         {quiz.map((item, i) => (
                             <Link to={`/quizpage/${item.courseCode}`} className="flex flex-col w-full h-80 rounded-3xl overflow-hidden" key={i}>
                                 <span className="relative w-full overflow-hidden rounded-t-3xl flex justify-center items-centers">
-                                <small className="absolute right-3 top-3 text-white p-3 rounded-lg bg-[#0000008a]">
-                                    {isLoading ? "Loading..." : 
-                                    quizData[item.courseCode]?.questions 
-                                        ? `${quizData[item.courseCode].questions.length} Questions`
-                                        : "No questions"}
-                                </small>
-                                <img src={item.Qimage} alt="" className="object-cover w-full" />
+                                    <small className="absolute right-3 top-3 text-white p-3 rounded-lg bg-[#0000008a]">
+                                        {isLoading ? "Loading..." : 
+                                        quizData[item.courseCode]?.questions 
+                                            ? `${quizData[item.courseCode].questions.length} Questions`
+                                            : "No questions"}
+                                    </small>
+                                    <img src={item.Qimage} alt="" className="object-cover w-full" />
                                 </span>
-                                <div className="flex flex-col gap-3 bg-[#ffffffb7] px-5 pt-5">
+                                <div className="flex flex-col gap-3 bg-[#ffffffb7] px-3 pt-5">
                                     <small className="text-[#00249c]">{item.courseCode}</small>
-                                    <h1 className="text-lg">{item.courseName}</h1>
+                                    <h1 className="text-sm">{item.courseName}</h1>
                                     <small className="flex items-center gap-2 text-[#838383]">
                                         <i className="fa-regular fa-clock"></i>
-                                        <p>{item.duration}</p>
+                                        <p>{quizData[item.courseCode]?.duration} min</p>
                                     </small>
                                     {
                                         item.status === "completed" ?
