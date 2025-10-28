@@ -25,8 +25,19 @@ const App = () => {
   ]
   const [passwordState, setPasswordState] = useState(false); 
   return (
-    <div className="flex flex-col">
-      <section className="flex flex-col items-center w-full md:h-[50%] bg-gradient-to-b from-transparent to-[#bbeba3] justify-between">
+    <div className="relative flex flex-col">
+      <div className="fixed top-0 w-screen h-screen blur-xl z-[-1] flex justify-center items-center overflow-scroll">
+        <motion.img 
+        src="/blob.svg" 
+        alt="" 
+        className="md:size-[80%] size-[100%] scale-150"
+        initial={{ scale: 0.7 }}
+        animate={{ scale: [0.7, 1, 0.7] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
+      {/* <section className="flex flex-col items-center w-full md:h-[50%] bg-gradient-to-b from-transparent to-[#bbeba3] justify-between"> */}
+      <section className="flex flex-col items-center w-full md:h-[50%] justify-between">
         <nav className="flex items-center p-3 justify-between w-full md:w-[90%]">
           <span className="flex items-center gap-1">
             <div className="w-12 h-12 cursor-pointer">
@@ -35,8 +46,8 @@ const App = () => {
             <p className="text-gray-800 font-semibold">BrainFuel</p>
           </span>
           <span className="flex gap-4 items-center">
-            <Link to="/login" className="text-[var(--baseColor)] font-bold text-[13px]">Login</Link>
-            <Link to="/signup" className="px-4 py-2 rounded-lg text-[13px] font-bold bg-[var(--baseColor)] text-white">Sign Up</Link>
+            <Link to="/login" className="text-[var(--baseColor)] text-[13px]">Login</Link>
+            <Link to="/signup" className="px-4 py-2 rounded-lg text-[13px] bg-[var(--baseColor)] text-white">Sign Up</Link>
           </span>
         </nav>
 
