@@ -30,9 +30,9 @@ const App = () => {
         <motion.img 
         src="/blob.svg" 
         alt="" 
-        className="md:size-[80%] size-[100%] scale-150"
-        initial={{ scale: 0.7 }}
-        animate={{ scale: [0.7, 1, 0.7] }}
+        className="md:size-[80%] size-110 scale-150"
+        initial={{ scale: 0.2 }}
+        animate={{ scale: [0.2, 1, 0.2] }}
         transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
         />
       </div>

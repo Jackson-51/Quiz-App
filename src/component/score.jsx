@@ -1,10 +1,11 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Score = ({score, quizData, quizId, setIsFinished}) => {
     const [correctAnswers, setCorrectAnswers] = useState({});
     const [userAnswers, setUserAnswers] = useState({});
     const [wrongAnswer, setWrongAnswer] = useState([]);
+    const [reviewSection, setReviewSection] = useState(false);
 
     // get the day streak of the current quiz
     const [currentStreak, setCurrentStreak] = useState(0);
@@ -39,7 +40,6 @@ const Score = ({score, quizData, quizId, setIsFinished}) => {
         }
         setWrongAnswer(wrong);
     }, [correctAnswers, userAnswers]);
-
     // Calculate scores
     const totalQuestions = Object.keys(correctAnswers).length;
     const correctCount = totalQuestions - wrongAnswer.length;
@@ -51,8 +51,7 @@ const Score = ({score, quizData, quizId, setIsFinished}) => {
             setIsFinished(false);
         } catch {}
     };
-
-    return (
+    return ( reviewSection ? (
         <div className="*:rounded-3xl w-full md:w-4/5 flex flex-col md:grid md:grid-cols-4 md:grid-rows-7 h-max gap-4">
             <section className="shadow-lg w-full md:col-span-4 md:row-span-1 p-4 flex flex-col justify-center bg-white">
                 <h1 className="text-2xl font-bold text-gray-700">Quiz Results</h1>
@@ -98,11 +97,48 @@ const Score = ({score, quizData, quizId, setIsFinished}) => {
                 <p className="text-gray-700">Day Streak</p>                
             </section>
             <section className="w-full mb-6 md:col-span-4 md:row-span-1 md:row-start-7 flex flex-col md:flex-row gap-3 justify-center ">
-                <Link to="" className="rounded-2xl p-4 w-full h-max flex justify-center font-bold items-center text-white -bg-linear-45 from-[#9702db] to-[#7745ff]">Review Answers</Link>
+                <Link to="" onClick={() => setReviewSection(true)} className="rounded-2xl p-4 w-full h-max flex justify-center font-bold items-center text-white -bg-linear-45 from-[#9702db] to-[#7745ff]">Review Answers</Link>
                 <Link to="/dashboard" onClick={clearPersist} className="border-1 border-gray-700 rounded-2xl p-4 w-full h-max flex items-center justify-center font-bold text-gray-700 hover:border-[#8c00af] hover:text-[#8c00af]">Take Another Quiz</Link>
                 <Link to="" className="border-1 border-gray-700 rounded-2xl p-4 w-full h-max flex items-center justify-center font-bold text-gray-700 hover:border-[#8c00af] hover:text-[#8c00af]">Share Result</Link>
             </section>
-        </div>
+        </div>) : 
+        (<div className=" relative w-full mx-2 flex flex-col gap-5 items-center mb-5">
+            <span onClick={() => setReviewSection(true)} className="absolute left-0 -top-1 size-10 flex justify-center items-center rounded-full -bg-linear-45 from-[#9702db] to-[#7745ff]">
+                <i className="fa-solid fa-arrow-left font-bold text-white text-xl"></i>
+            </span>
+            <h1 className="text-gray-500 text-2xl font-bold">{quizId}</h1>
+            {quizData.questions.map((item, i) => {
+                let alp = ["A", "B", "C", "D", "E"];
+                let yourAnsIndex = alp.indexOf(userAnswers[i + 1]);
+                let yourAns = item.options[yourAnsIndex] ?? "No Option Picked";
+                let correctAnsIndex = alp.indexOf(correctAnswers[i + 1]);
+                let correctAns = item.options[correctAnsIndex];
+                let wrongCondition = correctAnswers[i + 1] !== userAnswers[i + 1];
+                return (
+                <div key={i} className={`w-full h-max rounded-2xl bg-white shadow-md p-4 flex flex-col gap-3 ${wrongCondition ? "border-l-5 border-red-600" : "border-l-5 border-green-600"}`}>
+                    <div className="flex justify-between">
+                        <h1 className="font-bold text-gray-700">Question {i + 1}</h1>
+                        <span className={`flex items-center gap-2 ${wrongCondition ? "text-red-600" : "text-green-600"} font-bold`}>
+                            <i className={`fa-solid ${wrongCondition ? "fa-circle-xmark" : "fa-circle-check"}`}></i>
+                            <small className="font-bold">{wrongCondition ? "Wrong" : "Correct"}</small>
+                        </span>
+                    </div>
+                    <small className="font-bold text-gray-600">{item.question}</small>
+                    <div className={`p-5 flex flex-col gap-3 rounded-2xl ${wrongCondition ? "bg-gray-100" : "bg-green-100"}`}>
+                        <small className="text-gray-500">Your Answer:</small>
+                        <b className="text-gray-700">{yourAns}</b>
+                    </div>
+                    {wrongCondition &&
+                    <div className="p-5 flex flex-col gap-3 rounded-2xl bg-green-100">
+                        <small className="text-gray-500">Correct Answer:</small>
+                        <b className="text-gray-700">{correctAns}</b>
+                    </div>}
+                </div>)
+            })}
+            <div className="w-full flex justify-center">
+                <button onClick={() => setReviewSection(true)} className="px-5 py-3 border-none text-white -bg-linear-45 from-[#9702db] to-[#7745ff] rounded-xl">Go Back</button>
+            </div>
+        </div>)
     );
 }
  
