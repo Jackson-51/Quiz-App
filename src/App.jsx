@@ -32,8 +32,8 @@ const App = () => {
         alt="" 
         className="md:size-[80%] size-110 scale-150"
         initial={{ scale: 0.2 }}
-        animate={{ scale: [0.2, 1, 0.2] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+        animate={{ scale: [0.2, 2, 0.2] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
         />
       </div>
       {/* <section className="flex flex-col items-center w-full md:h-[50%] bg-gradient-to-b from-transparent to-[#bbeba3] justify-between"> */}

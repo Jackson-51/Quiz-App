@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 const Score = ({score, quizData, quizId, setIsFinished}) => {
     const [correctAnswers, setCorrectAnswers] = useState({});
     const [userAnswers, setUserAnswers] = useState({});
     const [wrongAnswer, setWrongAnswer] = useState([]);
-    const [reviewSection, setReviewSection] = useState(false);
+    const [reviewSection, setReviewSection] = useState(true);
 
     // get the day streak of the current quiz
     const [currentStreak, setCurrentStreak] = useState(0);
@@ -97,12 +98,12 @@ const Score = ({score, quizData, quizId, setIsFinished}) => {
                 <p className="text-gray-700">Day Streak</p>                
             </section>
             <section className="w-full mb-6 md:col-span-4 md:row-span-1 md:row-start-7 flex flex-col md:flex-row gap-3 justify-center ">
-                <Link to="" onClick={() => setReviewSection(true)} className="rounded-2xl p-4 w-full h-max flex justify-center font-bold items-center text-white -bg-linear-45 from-[#9702db] to-[#7745ff]">Review Answers</Link>
+                <Link to="" onClick={() => setReviewSection(false)} className="rounded-2xl p-4 w-full h-max flex justify-center font-bold items-center text-white -bg-linear-45 from-[#9702db] to-[#7745ff]">Review Answers</Link>
                 <Link to="/dashboard" onClick={clearPersist} className="border-1 border-gray-700 rounded-2xl p-4 w-full h-max flex items-center justify-center font-bold text-gray-700 hover:border-[#8c00af] hover:text-[#8c00af]">Take Another Quiz</Link>
                 <Link to="" className="border-1 border-gray-700 rounded-2xl p-4 w-full h-max flex items-center justify-center font-bold text-gray-700 hover:border-[#8c00af] hover:text-[#8c00af]">Share Result</Link>
             </section>
         </div>) : 
-        (<div className=" relative w-full mx-2 flex flex-col gap-5 items-center mb-5">
+        (<div className=" relative w-full md:w-[70%] mx-2 flex flex-col gap-5 items-center mb-5">
             <span onClick={() => setReviewSection(true)} className="absolute left-0 -top-1 size-10 flex justify-center items-center rounded-full -bg-linear-45 from-[#9702db] to-[#7745ff]">
                 <i className="fa-solid fa-arrow-left font-bold text-white text-xl"></i>
             </span>

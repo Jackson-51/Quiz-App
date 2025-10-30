@@ -1,9 +1,21 @@
 import { motion} from "framer-motion"
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const [passwordState, setPasswordState] = useState(false); 
+
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSignUp = () => {
+        localStorage.setItem("signupDetails", JSON.stringify({username: username, email:email, password: password}));
+        navigate("/login");
+    };
+
     return (
         <div className="px-5 relative z-10 flex justify-center items-center w-screen h-screen bg-[var(--lightLemon)]">
             <div className="absolute bottom-0 w-full h-full z-[-1] overflow-hidden flex flex-col justify-end">
@@ -94,13 +106,35 @@ const SignUp = () => {
                     after:bg-[var(--deepGray)] 
                     flex 
                     justify-center">or</b>
-                    <input type="text" placeholder="Username"  className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
-                    <input type="email" placeholder="Email" className="px-5 text-sm  border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+                    <input 
+                    type="text" 
+                    placeholder="Username"  
+                    className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <input 
+                    type="email" 
+                    placeholder="Email" 
+                    className="px-5 text-sm  border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}/>
                     <div className="w-[100%] relative">
-                        <input type={passwordState ? "text" : "password"} placeholder="Password" className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+                        <input 
+                        type={passwordState ? "text" : "password"} 
+                        placeholder="Password" className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        />
                         <i className={`fa-regular ${passwordState ? 'fa-eye' : 'fa-eye-slash'} text-[var(--baseColor)] absolute right-2 top-[50%] transform-[translateY(-50%)]`} onClick={() => setPasswordState(!passwordState)}></i>
                     </div>
-                    <input type="button" value="SignUp" className=" cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"/>
+                    <input 
+                    disabled={!email || !username || !password} 
+                    type="button" 
+                    value="SignUp" 
+                    onClick={ handleSignUp } 
+                    className="disabled:opacity-50 cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"
+                    />
                     <small className="text-[#3a3a3a] md:flex md:justify-center md:w-full mb-5">Already have an account? <Link to="/login" className="text-[var(--baseColor)] font-semibold pl-1">Login</Link></small>
                 </div>
             </form>

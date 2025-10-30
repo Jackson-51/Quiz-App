@@ -5,11 +5,29 @@ import { Link } from "react-router-dom";
 const Login = () => {
     const [passwordState, setPasswordState] = useState(false); 
     const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+    const [signupDetail, setSignupDetail] = useState({});
+    const [notsignup, setNotsignup] = useState(false);
+    const [notDetail, setNotDetail] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem("username", name);
-    }, [name]);
+        const signupDetails = localStorage.getItem("signupDetails");
+        setSignupDetail(JSON.parse(signupDetails));
+    },[]);
+
+    const handleLogin = () => {
+        if(signupDetail.username === name && signupDetail.password === loginPassword){
+            window.location.replace("/dashboard")
+        }
+        else if(signupDetail === null){
+            setNotsignup(true)
+            setNotDetail(false)
+        }
+        else{
+            setNotsignup(false)
+            setNotDetail(true)
+        }
+    }
     return (
         <div className="relative z-10 overflow-hidden flex justify-center items-center w-screen h-screen bg-[var(--lightLemon)]">
             <div className="absolute bottom-0 w-full h-full z-[-1] overflow-hidden flex flex-col justify-end">
@@ -100,6 +118,20 @@ const Login = () => {
                     after:bg-[var(--deepGray)] 
                     flex 
                     justify-center">or</b>
+                    {
+                    notsignup && <motion.small 
+                    className="text-[10px] text-red-500"
+                    animate={{opacity: [1, 0.3, 1]}}
+                    transition={{duration: 1.5, repeat: Infinity, ease: "easeInOut"}}
+                     >Create an account first</motion.small>
+                    }
+                    {
+                    notDetail && <motion.small 
+                    className="text-[10px] text-red-500"
+                    animate={{opacity: [1, 0.3, 1]}}
+                    transition={{duration: 1.5, repeat: Infinity, ease: "easeInOut"}}
+                     >Invalid login</motion.small>
+                    }
                     <input 
                     type="text" 
                     placeholder="Username"  
@@ -108,16 +140,17 @@ const Login = () => {
                     className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
                     <div className="w-[100%] relative">
                         <input 
-                        type={passwordState ? "text" : "password"} 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}                        
+                        type={passwordState ? "text" : "loginPassword"} 
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}                        
                         placeholder="Password" className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
                         <i className={`fa-regular ${passwordState ? 'fa-eye' : 'fa-eye-slash'} text-[var(--baseColor)] absolute right-2 top-[50%] transform-[translateY(-50%)]`} onClick={() => setPasswordState(!passwordState)}></i>
                     </div>
-                    {name.length > 0 && password.length > 0 ?
-                        <Link to="/dashboard" className="md:flex md:justify-center cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2">Login</Link> :
-                        <button disabled className="disabled:opacity-75 md:flex md:justify-center cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2">Login</button>
-                    }       
+                    <button 
+                    disabled={!name && !loginPassword} 
+                    onClick={ handleLogin }
+                    className="disabled:opacity-75 md:flex md:justify-center cursor-pointer md:w-full px-10 py-3 rounded-xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"
+                    >Login</button>
                     <small className="text-[#3a3a3a]  md:flex md:justify-center md:w-full mb-5">Create an account <Link to="/signup" className="text-[var(--baseColor)] font-semibold pl-1">SignUp</Link></small>
                 </div>
             </form>
