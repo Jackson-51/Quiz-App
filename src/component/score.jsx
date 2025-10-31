@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 const Score = ({score, quizData, quizId, setIsFinished}) => {
     const [correctAnswers, setCorrectAnswers] = useState({});
@@ -45,6 +44,22 @@ const Score = ({score, quizData, quizId, setIsFinished}) => {
     const totalQuestions = Object.keys(correctAnswers).length;
     const correctCount = totalQuestions - wrongAnswer.length;
     const scorePercent = totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0;
+    
+    useEffect(() => {
+        if (!totalQuestions) return;
+        if (!Object.keys(userAnswers).length) return;
+
+        const addedKey = `quiz_${quizId}_pointsAdded`;
+        if (localStorage.getItem(addedKey)) return;
+
+        try {
+            const prev = Number(localStorage.getItem("points")) || 0;
+            localStorage.setItem("points", String(prev + correctCount * 10));
+            localStorage.setItem(addedKey, "true");
+        } catch (err) {
+            console.error("Failed to persist points:", err);
+        }
+    }, [quizId, totalQuestions, correctCount, userAnswers]);
 
     const clearPersist = () => {
         try {

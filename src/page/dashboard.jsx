@@ -10,8 +10,8 @@ const DashBoard = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const username = localStorage.getItem("username");
-        setDashName(username);
+        const signupDetails = localStorage.getItem("signupDetails");
+        setDashName(JSON.parse(signupDetails)?.username || "User");
 
         setIsLoading(true);
         fetch("https://raw.githubusercontent.com/Jackson-51/my-json-data/main/data.json")
@@ -28,18 +28,26 @@ const DashBoard = () => {
                 setQuizData({});
                 setIsLoading(false);
             });
-    }, [])
+    }, []);
 
-    const dashboardData = {
-            icon: ["fa-regular fa-circle-check", "fa-regular fa-clock", "fa-solid fa-chart-simple", "fa-solid fa-trophy"],
-            name: ["Quizzes Completed", "In progress", "Average Score", "Achievement Points"],
-            data: [24, 7, 82, 1240]
-        }
+    const [dashboardData, setDashboardData] = useState([]);
+
+    useEffect(() => {
+        const data = [
+        { icon: "fa-regular fa-circle-check", name: "Quizzes Completed", data: Number(localStorage.getItem("completedQuizzes")) || 0 },
+        { icon: "fa-regular fa-clock", name: "In progress", data: Number(localStorage.getItem("inProgress")) || 0 },
+        { icon: "fa-solid fa-chart-simple", name: "Average Score", data: Number(localStorage.getItem("averageScore")) || 0 },
+        { icon: "fa-solid fa-trophy", name: "Achievement Points", data: Number(localStorage.getItem("points")) || 0 }
+        ];
+
+        setDashboardData(data);
+    }, []);
+
     const allQuizzes = [
-        {Qimage: "/quizImage/Qimg1.jpg", courseCode: "GEG311", courseName: "Multivariable calculus", status: "completed"},
-        {Qimage: "/quizImage/Qimg2.jpg", courseCode: "CEG211", courseName: "Mechanics of material", status: "progress"},
-        {Qimage: "/quizImage/Qimg3.jpg", courseCode: "PGG318", courseName: "Natural gas processing", status: "notstarted"},
-        {Qimage: "/quizImage/Qimg4.jpg", courseCode: "CHG331", courseName: "Transport phenomenon II", status: "completed"}
+        {Qimage: "/quizImage/Qimg1.jpg", courseCode: "GEG311", courseName: "Multivariable calculus"},
+        {Qimage: "/quizImage/Qimg2.jpg", courseCode: "CEG211", courseName: "Mechanics of material"},
+        {Qimage: "/quizImage/Qimg3.jpg", courseCode: "PGG318", courseName: "Natural gas processing"},
+        {Qimage: "/quizImage/Qimg4.jpg", courseCode: "CHG331", courseName: "Transport phenomenon II"}
     ]
     const sidebar = [
         {icon: "https://cdn.lordicon.com/jeuxydnh.json", name: "Dashboard"},
@@ -75,7 +83,7 @@ const DashBoard = () => {
                     <i className="fa-solid fa-search absolute left-1 top-1/2 transform-[translateY(-50%)] text-[var(--lightBaseColor)]"></i>
                 </div>
                 <div className="flex items-center gap-2">
-                    <small className="font-bold text-[var(--baseColor)]">{dashName}</small>
+                    <small className="font-bold text-[var(--baseColor)] flex items-center gap-3"><p className="custom-text">Welcome</p> {dashName}</small>
                     <span className="w-10 h-10 flex justify-center items-center rounded-full bg-[#7f9b72]"><i className="fa-regular fa-user text-[var(--baseColor)]"></i></span>
                 </div>
             </nav>
@@ -115,30 +123,37 @@ const DashBoard = () => {
                                 </motion.span>
                             ))}
                     </div>
+                    <Link 
+                    to="/" 
+                    onClick={() => localStorage.clear()}
+                    className="mt-auto mb-5 w-full flex items-center text-red-700 bg-red-100 px-5 py-3 rounded-2xl text-sm"
+                    >Log out <i class="fa-solid fa-arrows-turn-right"></i>
+                    </Link>
                 </aside>
+
                 <div className="flex-1 flex flex-col gap-5 h-full overflow-y-scroll sb">
                     <section className="w-full p-5 gap-3 flex flex-col items-start">
                         <h1 className="text-gray-700 font-bold">Dashboard Overview</h1>
                         <div className="w-full flex flex-col gap-3 md:grid md:grid-cols-2">
-                            {dashboardData.name.map((item, i) => {
+                            {dashboardData.map((item, i) => {
                                 const colors = [
-                                    ["#caf3d5", "#038024"],
-                                    ["#c2d0ff", "#00249c"],
-                                    ["#c2d0ff", "#00249c"],
-                                    ["#ffdfbf", "#d66c01"]
+                                    {bgColor: "#caf3d5", iconColor: "#038024"},
+                                    {bgColor: "#c2d0ff", iconColor: "#00249c"},
+                                    {bgColor: "#c2d0ff", iconColor: "#00249c"},
+                                    {bgColor: "#ffdfbf", iconColor: "#d66c01"}
                                 ]
                                 return (
                                     <div key={i} className="w-full p-5 flex items-center gap-4 rounded-2xl bg-white">
                                         <span 
                                         className="w-12 h-12 rounded-xl flex justify-center items-center bg-[var(--lightLemon)]" 
-                                        style={{backgroundColor: colors[i][0]}}>
+                                        style={{backgroundColor: colors[i].bgColor}}>
                                             <i 
-                                            className={dashboardData.icon[i]} 
-                                            style={{color: colors[i][1]}}></i>
+                                            className={item.icon + " text-2xl"} 
+                                            style={{color: colors[i].iconColor}}></i>
                                         </span>
                                         <div className="flex flex-col justify-between">
-                                            <small className="text-gray-500">{item}</small>
-                                            <b className="text-xl">{i !== 2 ? dashboardData.data[i] : dashboardData.data[i] + " %"}</b>
+                                            <small className="text-gray-500">{item.name}</small>
+                                            <b className="text-xl">{i !== 2 ? item.data : item.data + " %"}</b>
                                         </div>
                                     </div>
                                 )
@@ -160,7 +175,9 @@ const DashBoard = () => {
                     </section>
 
                     <section className="flex w-full h-max flex-col items-center gap-5 p-4 md:grid md:grid-cols-3">
-                        {quiz.map((item, i) => (
+                        {quiz.map((item, i) => {
+                            const completed = JSON.parse(localStorage.getItem(`quiz_${item.courseCode}_completed`)) || false;
+                            return(
                             <Link to={`/quizpage/${item.courseCode}`} className="flex flex-col w-full h-80 rounded-3xl overflow-hidden" key={i}>
                                 <span className="relative w-full overflow-hidden rounded-t-3xl flex justify-center items-centers">
                                     <small className="absolute right-3 top-3 text-white p-3 rounded-lg bg-[#0000008a]">
@@ -179,33 +196,18 @@ const DashBoard = () => {
                                         <p>{quizData[item.courseCode]?.duration} min</p>
                                     </small>
                                     {
-                                        item.status === "completed" ?
+                                        completed ?
                                         <footer className="flex justify-between items-center py-2 border-t border-gray-300">
                                             <span className="flex items-center gap-3 text-[var(--lightBaseColor)]">
                                                 <i className="fa-regular fa-circle-check"></i>
-                                                <small>Completed &middot; {Math.floor(Math.random() * (100 - 50 + 1)) + 50}%</small>
+                                                <small>Completed &middot; 100%</small>
                                             </span>
                                             <span className="flex justify-center items-center w-10 h-10 rounded-full bg-[#caf3d5]">
                                                 <i className="fa-solid fa-chart-simple text-[#038024]"></i>
                                             </span>
-                                        </footer> : item.status === "notstarted" ?
+                                        </footer> : 
                                         <footer className="flex justify-between items-center py-2 border-t border-gray-300">
                                             <small className="text-gray-400">Not Started</small>
-                                            <span className="flex justify-center items-center w-10 h-10 rounded-full bg-[#c2d0ff]">
-                                                <i className="fa-solid fa-play text-[#00249c]"></i>
-                                            </span>
-                                        </footer> :
-                                        <footer className="flex justify-between items-center pt-2 pb-3 border-t border-gray-300">
-                                            <span className="flex flex-col justify-center gap-2 w-max">
-                                                <div className="flex items-center gap-2 text-[#00249c]">
-                                                    <i className="fa-regular fa-circle-check"></i>
-                                                    <small>In progress</small>
-                                                </div>
-                                                <div className="relative">
-                                                    <div className="z-5 absolute w-full h-2 rounded-2xl bg-gray-300"></div>
-                                                    <div className={`z-10 absolute top-0 left-0 w-[30%] h-2 rounded-2xl bg-[#00249c]`}></div>
-                                                </div>
-                                            </span>
                                             <span className="flex justify-center items-center w-10 h-10 rounded-full bg-[#c2d0ff]">
                                                 <i className="fa-solid fa-play text-[#00249c]"></i>
                                             </span>
@@ -213,7 +215,8 @@ const DashBoard = () => {
                                     }           
                                 </div>
                             </Link>
-                        ))}
+                        )}
+                        )}
                     </section>                    
                 </div>
             </div>

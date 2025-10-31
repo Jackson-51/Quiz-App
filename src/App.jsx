@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { defineElement } from "@lordicon/element";
 import { motion, spring, useInView } from "framer-motion"
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 defineElement();
 const App = () => {
@@ -23,7 +24,17 @@ const App = () => {
     ["fa-solid fa-4", "MindExplorer", 9350, "", "/images/four.jpg"],
     ["fa-solid fa-5", "BrainiacQueen", 9210, "", "/images/five.jpg"]
   ]
+  const navigate = useNavigate();
   const [passwordState, setPasswordState] = useState(false); 
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignUp = () => {
+      localStorage.setItem("signupDetails", JSON.stringify({username: username, email:email, password: password}));
+      navigate("/login");
+  }; 
   return (
     <div className="relative flex flex-col">
       <div className="fixed top-0 w-screen h-screen blur-xl z-[-1] flex justify-center items-center overflow-scroll">
@@ -222,13 +233,13 @@ const App = () => {
               after:bg-[var(--deepGray)] 
               flex 
               justify-center">or</b>
-              <input type="text" placeholder="Username"  className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
-              <input type="email" placeholder="Email" className="px-5 text-sm  border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+              <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="px-5 text-sm  border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
               <div className="w-[100%] relative">
-                <input type={passwordState ? "text" : "password"} placeholder="Password" className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
+                <input type={passwordState ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="px-5 text-sm border outline-none border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />
                 <i className={`fa-regular ${passwordState ? 'fa-eye' : 'fa-eye-slash'} text-[var(--baseColor)] absolute right-2 top-[50%] transform-[translateY(-50%)]`} onClick={() => setPasswordState(!passwordState)}></i>
               </div>
-              <input type="button" value="SignUp" className="px-10 py-3 rounded-2xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2"/>
+              <input type="button" disabled={!username || !email || !password} onClick={handleSignUp} value="SignUp" className={`px-10 py-3 rounded-2xl text-sm bg-[var(--baseColor)] text-[var(--lightGray)] mb-2 ${ !username || !email || !password ? "opacity-50" : ""}`} />
             </div>
         </form>
       </section>

@@ -15,7 +15,8 @@ const Login = () => {
         setSignupDetail(JSON.parse(signupDetails));
     },[]);
 
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
         if(signupDetail.username === name && signupDetail.password === loginPassword){
             window.location.replace("/dashboard")
         }
@@ -140,7 +141,7 @@ const Login = () => {
                     className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl"/>
                     <div className="w-[100%] relative">
                         <input 
-                        type={passwordState ? "text" : "loginPassword"} 
+                        type={passwordState ? "text" : "password"} 
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}                        
                         placeholder="Password" className="px-5 text-sm border outline-none border-[var(--deepGray)] focus:border-[var(--lightBaseColor)] py-4 w-[100%] rounded-xl" />

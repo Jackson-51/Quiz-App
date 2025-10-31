@@ -90,9 +90,11 @@ const Quiztemplate = ({ courseData, quizId, setIsFinished, setScore }) => {
     scoreInfo.answers = answer;
     scoreInfo.timeTaken = timeSpent();
     setScore(scoreInfo);
+    console.log(answer)
     setIsFinished(true)
     const previousStreak = Number(localStorage.getItem(`quiz_${quizId}_dayStreak`));
     localStorage.setItem(`quiz_${quizId}_dayStreak`, previousStreak + 1);
+    localStorage.setItem(`quiz_${quizId}_completed`, JSON.stringify(true));
   }
   return (
     <div className="flex flex-col gap-3 md:gap-3 items-start w-full h-full md:p-3">
