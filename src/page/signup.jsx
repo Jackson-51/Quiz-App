@@ -65,7 +65,7 @@ const SignUp = () => {
                     }}
                 />
             </div>
-            <form action="" className="flex flex-col p-3 bg-white rounded-3xl gap-4 md:w-[70%] md:gap-6 md:grid md:grid-cols-2">
+            <form action="" className="flex flex-col p-3 bg-white rounded-4xl gap-4 md:w-[70%] md:gap-6 md:grid md:grid-cols-2">
                 <motion.div 
                 whileInView={{ scale: [1, 1.1, 1] }}
                 viewport={{ once: true, amount: 0.5 }}
